@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: ecom_webapp_container
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app

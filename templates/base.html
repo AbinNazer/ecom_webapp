@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title if title else "Abin's Store" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1><a href="/">🛍️ Abin's Store</a></h1>
+    <nav>
+      <a href="/">Home</a> | <a href="/cart">🛒 Cart</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>© 2025 Abin Nazer | Mini E-Commerce WebApp (Docker + Jenkins Ready)</p>
+  </footer>
+</body>
+</html>
