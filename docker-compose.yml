@@ -7,6 +7,8 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
       - ./static/images:/app/static/images
+      - ./static/css:/app/static/css
+      - ./static/js:/app/static/js
+      - ./templates:/app/templates
     restart: always
