@@ -21,9 +21,8 @@ def save_products(products):
 
 
 @app.route('/')
-def home():
-    return redirect(url_for('products'))
-
+def index():
+    return render_template('products.html', products=products, categories=categories)
 
 # 🛍 Show all products with optional filters
 @app.route('/products')
