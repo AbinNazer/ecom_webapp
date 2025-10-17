@@ -1,52 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-
 <h2 class="title">🛍 Available Products</h2>
 
-<!-- Search & Filter -->
+<!-- Filter Section -->
 <div class="filters">
-  <form method="get" action="{{ url_for('products_page') }}" class="filter-form">
-    <input type="text" name="search" placeholder="Search for products..." value="{{ request.args.get('search', '') }}" class="search-bar">
-    <select name="category" class="category-select">
-      <option value="">All Categories</option>
-      {% for cat in categories %}
-      <option value="{{ cat }}" {% if request.args.get('category') == cat %}selected{% endif %}>{{ cat }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit" class="filter-btn">Filter</button>
-  </form>
+    <form method="get" action="{{ url_for('products_page') }}" class="filter-form">
+        <input type="text" name="search" placeholder="Search..." value="{{ request.args.get('search','') }}">
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+                <option value="{{ cat }}" {% if request.args.get('category') == cat %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
 </div>
 
-<!-- Products Grid -->
-<div class="grid">
-  {% for product in products %}
-  <div class="card">
-    <div class="image-container">
-      <img src="{{ product.image }}" alt="{{ product.name }}">
-      {% if product.discount %}
-      <span class="discount-badge">-{{ product.discount }}%</span>
-      {% endif %}
+<!-- Product Grid -->
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <div class="product-image">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+            {% if product.discount %}
+            <span class="discount-badge">-{{ product.discount }}%</span>
+            {% endif %}
+        </div>
+        <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p class="price">
+                ₹{{ product.price }}
+                {% if product.original_price %}
+                    <span class="old-price">₹{{ product.original_price }}</span>
+                {% endif %}
+            </p>
+            <div class="rating">
+                {% for i in range(1,6) %}
+                    {% if i <= product.rating %}
+                        <span class="star filled">★</span>
+                    {% else %}
+                        <span class="star">☆</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn add-btn">Add to Cart 🛒</a>
+        </div>
     </div>
-    <div class="card-content">
-      <h3>{{ product.name }}</h3>
-      <p class="price">₹{{ product.price }}
-        {% if product.original_price %}
-        <span class="old-price">₹{{ product.original_price }}</span>
-        {% endif %}
-      </p>
-      <div class="rating">
-        {% for i in range(1,6) %}
-          {% if i <= product.rating %}
-          <span class="star filled">★</span>
-          {% else %}
-          <span class="star">☆</span>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn add-btn">Add to Cart 🛒</a>
-    </div>
-  </div>
-  {% endfor %}
+    {% endfor %}
 </div>
-
 {% endblock %}
+

@@ -1,38 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h2 class="title">🛒 Your Cart</h2>
-
-{% if cart %}
-<table class="cart-table">
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in cart %}
-        <tr>
-            <td>
-                <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-img">
-                {{ item.name }}
-            </td>
-            <td>₹{{ item.price }}</td>
-            <td>1</td>
-            <td>₹{{ item.price }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<div class="cart-total">
-    <h3>Total: ₹{{ cart|sum(attribute='price') }}</h3>
-    <a href="#" class="btn checkout-btn">Proceed to Checkout</a>
+<div class="cart-container">
+    <h2>🛒 Your Cart</h2>
+    {% if cart %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in cart %}
+            <tr>
+                <td>
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="cart-img">
+                    {{ product.name }}
+                </td>
+                <td>₹{{ product.price }}</td>
+                <td>1</td>
+                <td>₹{{ product.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="cart-summary">
+        <p><strong>Total:</strong> ₹{{ cart|sum(attribute='price') }}</p>
+        <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
+    {% else %}
+    <p class="no-cart-items">Your cart is empty.</p>
+    {% endif %}
 </div>
-{% else %}
-<p class="empty-cart">Your cart is empty. <a href="{{ url_for('products_page') }}">Shop now!</a></p>
-{% endif %}
-
 {% endblock %}

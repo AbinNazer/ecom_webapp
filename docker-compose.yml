@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   web:
@@ -8,7 +8,4 @@ services:
       - "5000:5000"
     volumes:
       - ./static/images:/app/static/images
-      - ./static/css:/app/static/css
-      - ./static/js:/app/static/js
-      - ./templates:/app/templates
-    restart: always
+    restart: unless-stopped

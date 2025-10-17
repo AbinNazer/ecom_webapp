@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abin Store</title>
+    <title>AbinStore</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
 </head>
 <body>
+
     <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">
             <a href="{{ url_for('index') }}">AbinStore</a>
+        </div>
+        <div class="search-bar">
+            <form action="{{ url_for('products_page') }}" method="get">
+                <input type="text" name="search" placeholder="Search for products...">
+                <button type="submit">🔍</button>
+            </form>
         </div>
         <ul class="nav-links">
             <li><a href="{{ url_for('products_page') }}">Products</a></li>
@@ -20,17 +27,18 @@
         </ul>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Main content -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 AbinStore. All rights reserved.</p>
+        <div class="footer-links">
+            <p>&copy; 2025 AbinStore. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
-

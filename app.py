@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-# Config for image uploads
+# Configuration for image uploads
 UPLOAD_FOLDER = 'static/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -39,31 +39,35 @@ products = [
 categories = ['Electronics', 'Books', 'Clothing', 'Toys']
 cart = []
 
-# Helper function
+# Helper function to check allowed file extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Routes
+# Home page
 @app.route('/')
 def index():
-    featured_products = products[:4]  # first 4 products
-    return render_template('index.html', featured_products=featured_products)
+    return render_template('index.html', products=products, categories=categories, cart=cart)
 
+# Products page
 @app.route('/products')
 def products_page():
     search = request.args.get('search', '').lower()
     category = request.args.get('category', '')
+
     filtered_products = products
     if search:
         filtered_products = [p for p in filtered_products if search in p['name'].lower()]
     if category:
         filtered_products = [p for p in filtered_products if p['category'] == category]
-    return render_template('products.html', products=filtered_products, categories=categories)
 
+    return render_template('products.html', products=filtered_products, categories=categories, cart=cart)
+
+# Cart page
 @app.route('/cart')
 def cart_page():
     return render_template('cart.html', cart=cart)
 
+# Add to cart
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     product = next((p for p in products if p['id'] == product_id), None)
@@ -71,6 +75,7 @@ def add_to_cart(product_id):
         cart.append(product)
     return redirect(url_for('cart_page'))
 
+# Add new product
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':
@@ -90,7 +95,7 @@ def add_product():
             image_file.save(image_path)
             image_url = f'/static/images/{filename}'
         else:
-            image_url = '/static/images/default.png'
+            image_url = '/static/images/default.png'  # default image
 
         new_product = {
             'id': max(p['id'] for p in products) + 1 if products else 1,
@@ -105,7 +110,7 @@ def add_product():
         products.append(new_product)
         return redirect(url_for('products_page'))
 
-    return render_template('add_product.html', categories=categories)
+    return render_template('add_product.html', categories=categories, cart=cart)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

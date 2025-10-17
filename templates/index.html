@@ -1,27 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="hero">
-    <h1>Welcome to AbinStore 🛍</h1>
-    <p>Find amazing deals and products!</p>
-    <a href="{{ url_for('products_page') }}" class="btn">Shop Now</a>
+
+<!-- Hero Banner -->
+<section class="hero-banner">
+    <img src="{{ url_for('static', filename='images/hero-banner.jpg') }}" alt="Hero Banner">
 </section>
 
-<section class="featured-products">
-    <h2>Featured Products</h2>
-    <div class="grid">
-        {% for product in featured_products %}
-        <div class="card">
-            <img src="{{ product.image }}" alt="{{ product.name }}">
-            <h3>{{ product.name }}</h3>
-            <p>₹{{ product.price }}
-                {% if product.original_price %}
-                <span class="old-price">₹{{ product.original_price }}</span>
-                {% endif %}
-            </p>
-            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn add-btn">Add to Cart 🛒</a>
+<!-- Featured Categories -->
+<section class="categories">
+    <h2>Shop by Categories</h2>
+    <div class="category-grid">
+        {% for cat in categories %}
+        <div class="category-card">
+            <img src="{{ url_for('static', filename='images/' ~ cat | lower ~ '.jpg') }}" alt="{{ cat }}">
+            <h3>{{ cat }}</h3>
         </div>
         {% endfor %}
     </div>
 </section>
+
+<!-- Featured Products -->
+<section class="featured-products">
+    <h2>Top Products</h2>
+    <div class="grid">
+        {% for product in products[:6] %}
+        <div class="card">
+            <div class="image-container">
+                <img src="{{ product.image }}" alt="{{ product.name }}">
+                {% if product.discount %}
+                <span class="discount-badge">-{{ product.discount }}%</span>
+                {% endif %}
+            </div>
+            <div class="card-content">
+                <h3>{{ product.name }}</h3>
+                <p class="price">₹{{ product.price }}
+                    {% if product.original_price %}
+                    <span class="old-price">₹{{ product.original_price }}</span>
+                    {% endif %}
+                </p>
+                <div class="rating">
+                    {% for i in range(1,6) %}
+                        {% if i <= product.rating %}
+                        <span class="star filled">★</span>
+                        {% else %}
+                        <span class="star">☆</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn add-btn">Add to Cart 🛒</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
 {% endblock %}
+
 

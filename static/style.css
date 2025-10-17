@@ -1,67 +1,97 @@
-/* ---------------- Body & Layout ---------------- */
+/* ====== Global Styles ====== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
+    background: #f1f3f6;
     color: #333;
 }
 
-main {
-    padding: 20px 40px;
-    min-height: 80vh;
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-/* ---------------- Navbar ---------------- */
+h2 {
+    font-size: 1.8rem;
+    color: #212121;
+}
+
+/* ====== Navbar ====== */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 40px;
-    background-color: #2874f0;
+    background: #2874f0;
     color: white;
+    padding: 12px 20px;
 }
 
 .navbar .logo a {
-    color: white;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: bold;
-    text-decoration: none;
+    color: white;
 }
 
-.navbar ul.nav-links {
+.navbar .nav-links {
     list-style: none;
     display: flex;
     gap: 20px;
-    margin: 0;
-    padding: 0;
 }
 
-.navbar ul.nav-links li a {
+.navbar .nav-links li a {
     color: white;
-    text-decoration: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: background 0.3s;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.navbar ul.nav-links li a:hover {
-    background-color: #0b4ed5;
+.navbar .nav-links li a:hover {
+    color: #ffe500;
 }
 
-/* ---------------- Footer ---------------- */
-footer {
+/* ====== Product Page ====== */
+.title {
     text-align: center;
-    padding: 15px;
-    background-color: #2874f0;
-    color: white;
+    margin: 20px 0;
 }
 
-/* ---------------- Product Grid ---------------- */
+.filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.filter-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-bar,
+.category-select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.filter-btn {
+    background: #fb641b;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filter-btn:hover {
+    background: #e65b00;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
+    gap: 20px;
+    padding: 0 20px;
 }
 
 .card {
@@ -69,67 +99,52 @@ footer {
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
 .image-container {
     position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
 }
 
 .image-container img {
     width: 100%;
-    height: 100%;
+    height: 200px;
     object-fit: cover;
-    transition: transform 0.3s;
-}
-
-.image-container img:hover {
-    transform: scale(1.1);
 }
 
 .discount-badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: #ff3f6c;
+    top: 8px;
+    left: 8px;
+    background: #ff4d4d;
     color: white;
-    padding: 5px 10px;
-    font-weight: bold;
+    font-size: 0.8rem;
+    padding: 5px 8px;
     border-radius: 5px;
-    font-size: 0.85rem;
 }
 
 .card-content {
-    padding: 15px;
-}
-
-.card-content h3 {
-    margin: 5px 0;
-    font-size: 1.1rem;
+    padding: 12px;
 }
 
 .price {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #111;
+    color: #212121;
 }
 
 .old-price {
     text-decoration: line-through;
-    color: #999;
+    color: #888;
     font-size: 0.9rem;
-    margin-left: 8px;
+    margin-left: 6px;
 }
 
-/* ---------------- Ratings ---------------- */
 .rating {
     margin: 8px 0;
 }
@@ -143,87 +158,191 @@ footer {
     color: #fbc02d;
 }
 
-/* ---------------- Buttons ---------------- */
-.btn, .add-btn, .filter-btn {
-    display: inline-block;
-    text-decoration: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
 .add-btn {
-    background-color: #ff9f00;
+    display: inline-block;
+    background: #fb641b;
     color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s;
+    font-weight: bold;
 }
 
 .add-btn:hover {
-    background-color: #e68a00;
+    background: #e65b00;
 }
 
-.filter-btn {
-    background-color: #2874f0;
+/* ====== Cart Page ====== */
+.cart-container {
+    padding: 20px;
+    background: #f1f3f6;
+}
+
+.cart-container h2 {
+    margin-bottom: 20px;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.cart-table th, .cart-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.cart-summary {
+    text-align: right;
+    font-size: 1.2rem;
+}
+
+.checkout-btn {
+    background: #fb641b;
     color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.filter-btn:hover {
-    background-color: #0b4ed5;
+.checkout-btn:hover {
+    background: #e65b00;
 }
 
-/* ---------------- Filters & Search ---------------- */
-.filters {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-
-.filter-form {
-    display: flex;
-    gap: 12px;
-}
-
-.search-bar {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    width: 250px;
-}
-
-.category-select {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-/* ---------------- Titles ---------------- */
-.title {
+.no-cart-items {
     text-align: center;
-    margin-bottom: 25px;
-    font-size: 2rem;
-    color: #2874f0;
+    font-size: 1.2rem;
+    padding: 40px;
+    color: #555;
 }
 
-/* ---------------- Responsive ---------------- */
-@media (max-width: 768px) {
-    main {
-        padding: 15px 20px;
-    }
-
-    .navbar {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .filters {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .search-bar {
-        width: 100%;
-    }
+/* ====== Add Product Page ====== */
+.add-product-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
+.add-product-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
+.add-product-form label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.add-product-form input, .add-product-form select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-product-form button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background: #fb641b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-product-form button:hover {
+    background: #e65b00;
+}
+
+/* ====== Footer ====== */
+footer {
+    background: #212121;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    margin-top: 30px;
+    font-size: 0.9rem;
+/* ====== Hero Banner ====== */
+.hero-banner img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+/* ====== Categories Section ====== */
+.categories {
+    padding: 20px;
+    text-align: center;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.category-card {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+}
+
+.category-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.category-card h3 {
+    margin-top: 8px;
+    font-size: 1rem;
+}
+
+/* ====== Featured Products Section ====== */
+.featured-products {
+    padding: 20px;
+    text-align: center;
+}
+
+.featured-products .grid {
+    margin-top: 20px;
+}
+
+}

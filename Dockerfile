@@ -1,4 +1,4 @@
-# Use official Python 3.9 image
+# Use official Python image
 FROM python:3.9-slim
 
 # Set working directory
@@ -8,11 +8,12 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code
+# Copy the app code
 COPY . .
 
 # Expose port
 EXPOSE 5000
 
-# Run the Flask app
+# Start the app
 CMD ["python", "app.py"]
+
