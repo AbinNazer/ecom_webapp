@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="title">➕ Add New Product</h2>
+
+<form method="POST" enctype="multipart/form-data" class="add-product-form">
+  <label>Name:</label>
+  <input type="text" name="name" required>
+
+  <label>Price (₹):</label>
+  <input type="number" name="price" step="0.01" required>
+
+  <label>Original Price (₹):</label>
+  <input type="number" name="original_price" step="0.01">
+
+  <label>Discount (%):</label>
+  <input type="number" name="discount" min="0" max="100">
+
+  <label>Rating (1-5):</label>
+  <input type="number" name="rating" min="0" max="5">
+
+  <label>Category:</label>
+  <select name="category">
+    {% for cat in categories %}
+    <option value="{{ cat }}">{{ cat }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Product Image:</label>
+  <input type="file" name="image">
+
+  <button type="submit" class="btn submit-btn">Add Product</button>
+</form>
+
+{% endblock %}

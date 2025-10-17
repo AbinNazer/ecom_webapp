@@ -1,4 +1,5 @@
-version: '3.8'
+version: '3.9'
+
 services:
   web:
     build: .
@@ -6,4 +7,8 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - .:/app  # Mount current directory for live code updates
+      - ./static:/app/static
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped

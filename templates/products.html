@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2 class="title">🛍 Explore Our Products</h2>
+<h2 class="title">🛍 Available Products</h2>
 
-<!-- 🔍 Search & Category Filter -->
+<!-- 🔎 Search and Filter -->
 <div class="filters">
-  <form method="get" action="/products" class="filter-form">
+  <form method="get" action="{{ url_for('products_page') }}" class="filter-form">
     <input type="text" name="search" placeholder="Search products..." value="{{ request.args.get('search', '') }}" class="search-bar">
     <select name="category" class="category-select">
       <option value="">All Categories</option>
@@ -17,7 +17,7 @@
   </form>
 </div>
 
-<!-- 🛒 Product Cards -->
+<!-- 🛒 Products Grid -->
 <div class="grid">
   {% for product in products %}
   <div class="card">
@@ -27,7 +27,6 @@
       <span class="discount-badge">-{{ product.discount }}%</span>
       {% endif %}
     </div>
-
     <div class="card-content">
       <h3>{{ product.name }}</h3>
       <p class="price">₹{{ product.price }}
@@ -36,9 +35,7 @@
         {% endif %}
       </p>
 
-      <p class="description">{{ product.description }}</p>
-
-      <!-- ⭐ Product Ratings -->
+      <!-- ⭐ Ratings -->
       <div class="rating">
         {% for i in range(1,6) %}
           {% if i <= product.rating %}
@@ -49,146 +46,11 @@
         {% endfor %}
       </div>
 
-      <a href="/add_to_cart/{{ product.id }}" class="btn add-btn">Add to Cart 🛒</a>
+      <!-- 🛒 Add to Cart -->
+      <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn add-btn">Add to Cart 🛒</a>
     </div>
   </div>
-  {% else %}
-  <p class="no-products">No products found matching your filters.</p>
   {% endfor %}
 </div>
 
 {% endblock %}
-
-<!-- 🎨 Styling -->
-<style>
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 2rem;
-  color: #333;
-}
-
-.filters {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.filter-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.search-bar, .category-select {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.filter-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  padding: 10px;
-}
-
-.card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-}
-
-.image-container {
-  position: relative;
-  height: 200px;
-}
-
-.image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.discount-badge {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: #ff4d4d;
-  color: white;
-  font-size: 0.8rem;
-  padding: 5px 8px;
-  border-radius: 5px;
-}
-
-.card-content {
-  padding: 12px;
-}
-
-.price {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.old-price {
-  text-decoration: line-through;
-  color: #888;
-  font-size: 0.9rem;
-  margin-left: 6px;
-}
-
-.rating {
-  margin: 8px 0;
-}
-
-.star {
-  color: #ccc;
-}
-
-.star.filled {
-  color: #fbc02d;
-}
-
-.add-btn {
-  display: inline-block;
-  background: #28a745;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.3s;
-}
-
-.add-btn:hover {
-  background: #218838;
-}
-
-.description {
-  font-size: 0.9rem;
-  color: #555;
-  margin: 6px 0;
-}
-
-.no-products {
-  text-align: center;
-  font-style: italic;
-  color: #777;
-}
-</style>
