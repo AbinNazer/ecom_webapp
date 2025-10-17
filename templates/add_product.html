@@ -1,59 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2 class="title">➕ Add New Product</h2>
 
-<form action="/add_product" method="post" enctype="multipart/form-data" class="add-product-form">
-  <label for="name">Product Name:</label>
-  <input type="text" name="name" id="name" required>
+<form action="{{ url_for('add_product') }}" method="post" enctype="multipart/form-data" class="add-product-form">
+    <label for="name">Product Name:</label>
+    <input type="text" name="name" id="name" required>
 
-  <label for="price">Price:</label>
-  <input type="number" name="price" id="price" required>
+    <label for="price">Price (₹):</label>
+    <input type="number" name="price" id="price" required>
 
-  <label for="original_price">Original Price (optional):</label>
-  <input type="number" name="original_price" id="original_price">
+    <label for="original_price">Original Price (optional):</label>
+    <input type="number" name="original_price" id="original_price">
 
-  <label for="discount">Discount % (optional):</label>
-  <input type="number" name="discount" id="discount" min="0" max="100">
+    <label for="discount">Discount (%)</label>
+    <input type="number" name="discount" id="discount">
 
-  <label for="rating">Rating (1-5):</label>
-  <input type="number" name="rating" id="rating" min="1" max="5" value="0">
+    <label for="rating">Rating (1-5)</label>
+    <input type="number" name="rating" id="rating" min="0" max="5">
 
-  <label for="category">Category:</label>
-  <select name="category" id="category">
-    {% for cat in categories %}
-    <option value="{{ cat }}">{{ cat }}</option>
-    {% endfor %}
-  </select>
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+        {% for cat in categories %}
+        <option value="{{ cat }}">{{ cat }}</option>
+        {% endfor %}
+    </select>
 
-  <label for="image">Product Image:</label>
-  <input type="file" name="image" id="image" accept="image/*">
+    <label for="image">Product Image:</label>
+    <input type="file" name="image" id="image" accept="image/*">
 
-  <button type="submit" class="btn">Add Product</button>
+    <button type="submit" class="btn submit-btn">Add Product</button>
 </form>
 
-<style>
-.add-product-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 400px;
-  margin: 0 auto;
-}
-.add-product-form input, .add-product-form select {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-.add-product-form .btn {
-  background: #007bff;
-  color: white;
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-.add-product-form .btn:hover {
-  background: #0056b3;
-}
-</style>
 {% endblock %}
