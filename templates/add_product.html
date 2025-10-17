@@ -1,35 +1,20 @@
-
 {% extends "base.html" %}
 {% block content %}
-<div class="add-product-container">
+<section class="add-product">
     <h2>Add New Product</h2>
-    <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data" class="add-product-form">
-        <label for="name">Product Name</label>
-        <input type="text" name="name" required>
-
-        <label for="price">Price (₹)</label>
-        <input type="number" name="price" required>
-
-        <label for="original_price">Original Price (Optional)</label>
-        <input type="number" name="original_price">
-
-        <label for="discount">Discount % (Optional)</label>
-        <input type="number" name="discount">
-
-        <label for="rating">Rating (1-5)</label>
-        <input type="number" name="rating" min="1" max="5" value="0">
-
-        <label for="category">Category</label>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Product Name" required>
+        <input type="number" name="price" placeholder="Price" required>
+        <input type="number" name="original_price" placeholder="Original Price">
+        <input type="number" name="discount" placeholder="Discount %">
+        <input type="number" name="rating" placeholder="Rating (0-5)">
         <select name="category">
             {% for cat in categories %}
             <option value="{{ cat }}">{{ cat }}</option>
             {% endfor %}
         </select>
-
-        <label for="image">Product Image</label>
-        <input type="file" name="image" accept="image/*">
-
+        <input type="file" name="image" accept="image/*" required>
         <button type="submit">Add Product</button>
     </form>
-</div>
+</section>
 {% endblock %}
