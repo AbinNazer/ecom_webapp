@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{{ title if title else "Abin's Store" }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Commerce WebApp{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <header>
-    <h1><a href="/">🛍️ Abin's Store</a></h1>
+
+    <!-- 🌐 Navbar -->
     <nav>
-      <a href="/">Home</a> | <a href="/cart">🛒 Cart</a>
+        <h1>🛒 Abin's Shop</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('products') }}">Products</a>
+            <a href="{{ url_for('cart') }}">Cart 🛒</a>
+            <a href="{{ url_for('add_product') }}">Add Product ➕</a>
+        </div>
     </nav>
-  </header>
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+    <!-- 💠 Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-  <footer>
-    <p>© 2025 Abin Nazer | Mini E-Commerce WebApp (Docker + Jenkins Ready)</p>
-  </footer>
+    <!-- 🦶 Footer -->
+    <footer>
+        <p>Made with  by Abin Nazer</p>
+    </footer>
+
 </body>
 </html>

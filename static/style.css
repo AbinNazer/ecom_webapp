@@ -1,47 +1,240 @@
+/* 🌈 Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
 body {
-  font-family: 'Poppins', sans-serif;
-  background: #f9f9f9;
+  background: linear-gradient(to right, #f9f9f9, #eef2f3);
   color: #333;
-  text-align: center;
-}
-
-header {
-  background: #333;
-  color: #fff;
-  padding: 1rem;
-}
-
-.grid {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 2rem;
+  flex-direction: column;
+}
+
+/* 🧭 Navbar */
+nav {
+  background: #1e90ff;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #ffeb3b;
+}
+
+/* 🏷 Section Titles */
+h2.title {
+  text-align: center;
+  margin: 30px 0 20px;
+  font-size: 2.2rem;
+  color: #333;
+  position: relative;
+}
+
+h2.title::after {
+  content: "";
+  width: 100px;
+  height: 4px;
+  background: #1e90ff;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+}
+
+/* 🛍 Product Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  padding: 20px 40px;
 }
 
 .card {
   background: white;
-  border-radius: 12px;
-  padding: 1rem;
-  width: 220px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card img {
   width: 100%;
-  border-radius: 8px;
+  height: 200px;
+  object-fit: cover;
 }
 
+.card-content {
+  padding: 15px;
+  text-align: center;
+}
+
+.card-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2e8b57;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 0.9rem;
+  margin-left: 5px;
+}
+
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff4d4d;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+/* ⭐ Ratings */
+.rating {
+  margin: 8px 0;
+}
+
+.star {
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.star.filled {
+  color: #fbc02d;
+}
+
+/* 🛒 Buttons */
 .btn {
   display: inline-block;
-  margin-top: 0.5rem;
-  background: #28a745;
-  color: white;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
+  padding: 8px 12px;
+  border: none;
   border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+  text-decoration: none;
 }
 
-.btn.danger {
-  background: #dc3545;
+.add-btn {
+  background: #28a745;
+  color: white;
+}
+
+.add-btn:hover {
+  background: #1e7e34;
+}
+
+.filter-btn {
+  background: #1e90ff;
+  color: white;
+}
+
+.filter-btn:hover {
+  background: #006ad1;
+}
+
+.submit-btn {
+  background: #ff9800;
+  color: white;
+}
+
+.submit-btn:hover {
+  background: #e68900;
+}
+
+/* 🔍 Filters & Forms */
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.search-bar,
+.category-select,
+.add-form input,
+.add-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.search-bar:focus,
+.add-form input:focus,
+.add-form textarea:focus {
+  border-color: #1e90ff;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.3);
+}
+
+/* 💻 Add Product Page */
+.add-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 30px auto;
+  gap: 12px;
+  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .add-form {
+    width: 90%;
+  }
 }
