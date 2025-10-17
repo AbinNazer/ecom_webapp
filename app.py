@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 from werkzeug.utils import secure_filename
+import openai
 
 app = Flask(__name__)
 
-# Configuration for image uploads
+# =====================
+# 🖼️ Configuration for image uploads
+# =====================
 UPLOAD_FOLDER = 'static/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -12,7 +15,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-# In-memory products list with static image paths
+# =====================
+# 🛒 In-memory database
+# =====================
 products = [
     {
         'id': 1,
@@ -39,16 +44,20 @@ products = [
 categories = ['Electronics', 'Books', 'Clothing', 'Toys']
 cart = []
 
-# Helper function to check allowed file extensions
+# =====================
+# 🧩 Helper Functions
+# =====================
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Home page
+# =====================
+# 🌐 Routes
+# =====================
+
 @app.route('/')
 def index():
     return render_template('index.html', products=products[:4], cart=cart)
 
-# Products page
 @app.route('/products')
 def products_page():
     search = request.args.get('search', '').lower()
@@ -62,12 +71,10 @@ def products_page():
 
     return render_template('products.html', products=filtered_products, categories=categories, cart=cart)
 
-# Cart page
 @app.route('/cart')
 def cart_page():
     return render_template('cart.html', cart=cart)
 
-# Add to cart
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
     product = next((p for p in products if p['id'] == product_id), None)
@@ -75,7 +82,6 @@ def add_to_cart(product_id):
         cart.append(product)
     return redirect(url_for('cart_page'))
 
-# Add new product page
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':
@@ -112,8 +118,38 @@ def add_product():
 
     return render_template('add_product.html', categories=categories, cart=cart)
 
+# =====================
+# 🤖 AI Chatbot Route
+# =====================
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json.get("message", "")
+
+    if not user_message:
+        return jsonify({"reply": "Please say something!"})
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful shopping assistant for an e-commerce website."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        ai_reply = response["choices"][0]["message"]["content"]
+        return jsonify({"reply": ai_reply})
+
+    except Exception as e:
+        return jsonify({"reply": f"Error: {str(e)}"})
+
+
+# =====================
+# 🚀 Main Runner
+# =====================
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
 
 

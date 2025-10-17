@@ -28,6 +28,71 @@
     <footer>
         <p>&copy; 2025 AbinStore. All rights reserved.</p>
     </footer>
+<div id="chatbot">
+    <div id="chat-window">
+        <div id="messages"></div>
+        <input type="text" id="user-input" placeholder="Ask me anything..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <button id="chat-toggle">💬</button>
+</div>
+
+<script>
+const chatBox = document.getElementById('chat-window');
+document.getElementById('chat-toggle').onclick = () => {
+    chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'block' : 'none';
+};
+
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const message = input.value.trim();
+    if (!message) return;
+
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.innerHTML += `<div class='user-msg'>${message}</div>`;
+    input.value = '';
+
+    const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+    });
+
+    const data = await response.json();
+    messagesDiv.innerHTML += `<div class='bot-msg'>${data.reply}</div>`;
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+</script>
+
+<style>
+#chatbot { position: fixed; bottom: 20px; right: 20px; }
+#chat-window {
+    display: none;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 300px;
+    height: 350px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 10px;
+}
+#messages {
+    height: 280px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+.user-msg { text-align: right; color: #2874f0; margin: 5px; }
+.bot-msg { text-align: left; color: #333; margin: 5px; }
+#chat-toggle {
+    background-color: #2874f0;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+}
+</style>
 </body>
 </html>
 
