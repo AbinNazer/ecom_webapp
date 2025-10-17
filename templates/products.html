@@ -1,12 +1,11 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="title">🛍 Available Products</div>
+<div class="container">
+    <h2>🛍 All Products</h2>
 
-<!-- Search & Filter -->
-<div class="filters">
-    <form method="get" action="{{ url_for('products_page') }}">
-        <input type="text" name="search" placeholder="Search products..." value="{{ request.args.get('search','') }}">
+    <!-- Search & Filter -->
+    <form method="get" class="search-form">
+        <input type="text" name="search" placeholder="Search..." value="{{ request.args.get('search', '') }}">
         <select name="category">
             <option value="">All Categories</option>
             {% for cat in categories %}
@@ -15,37 +14,35 @@
         </select>
         <button type="submit">Filter</button>
     </form>
-</div>
 
-<!-- Product Grid -->
-<div class="grid">
-    {% for product in products %}
-    <div class="card">
-        <div class="image-container">
+    <!-- Products Grid -->
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
             <img src="{{ product.image }}" alt="{{ product.name }}">
             {% if product.discount %}
             <div class="discount-badge">-{{ product.discount }}%</div>
             {% endif %}
-        </div>
-        <div class="card-content">
             <h3>{{ product.name }}</h3>
-            <div class="price">
+            <p class="price">
                 ₹{{ product.price }}
                 {% if product.original_price %}
-                <span class="old-price">₹{{ product.original_price }}</span>
+                <span class="original-price">₹{{ product.original_price }}</span>
                 {% endif %}
-            </div>
-            <div class="rating">
-                {% for i in range(1,6) %}
-                <span class="star {% if i <= product.rating %}filled{% endif %}">★</span>
-                {% endfor %}
-            </div>
-            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="add-btn">Add to Cart 🛒</a>
+            </p>
+            <p class="rating">
+                {% for i in range(product.rating) %}★{% endfor %}
+                {% for i in range(5 - product.rating) %}☆{% endfor %}
+            </p>
+            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn">Add to Cart 🛒</a>
         </div>
+        {% else %}
+        <p>No products found.</p>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}
+
 
 
 

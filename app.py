@@ -5,44 +5,34 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Configuration for image uploads
-UPLOAD_FOLDER = 'static/images'
+UPLOAD_FOLDER = os.path.join('static', 'images')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+# Ensure the upload folder exists
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# In-memory products list with placeholders
+# In-memory products list
 products = [
     {
         'id': 1,
-        'name': 'Smartphone',
-        'price': 14999,
-        'original_price': 19999,
-        'discount': 25,
+        'name': 'Sample Product 1',
+        'price': 499,
+        'original_price': 599,
+        'discount': 20,
         'rating': 4,
         'category': 'Electronics',
-        'image': 'https://via.placeholder.com/300x300?text=Smartphone'
+        'image': url_for('static', filename='images/sample1.jpg')
     },
     {
         'id': 2,
-        'name': 'Python Basics Book',
-        'price': 499,
+        'name': 'Sample Product 2',
+        'price': 299,
         'original_price': None,
         'discount': None,
         'rating': 5,
         'category': 'Books',
-        'image': 'https://via.placeholder.com/300x300?text=Python+Book'
-    },
-    {
-        'id': 3,
-        'name': 'Laptop',
-        'price': 3000,
-        'original_price': 4000,
-        'discount': 25,
-        'rating': 4,
-        'category': 'Electronics',
-        'image': 'https://via.placeholder.com/300x300?text=Laptop'
+        'image': url_for('static', filename='images/sample2.jpg')
     }
 ]
 
@@ -85,7 +75,7 @@ def add_to_cart(product_id):
         cart.append(product)
     return redirect(url_for('cart_page'))
 
-# Add new product page
+# Add new product
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':
@@ -103,13 +93,12 @@ def add_product():
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
-            image_url = f'/static/images/{filename}'
+            image_url = url_for('static', filename=f'images/{filename}')  # Proper URL
         else:
-            # fallback placeholder image
             image_url = 'https://via.placeholder.com/300x300?text=Product+Image'
 
         new_product = {
-            'id': max([p['id'] for p in products]) + 1 if products else 1,
+            'id': max([p['id'] for p in products], default=0) + 1,
             'name': name,
             'price': price,
             'original_price': original_price,
@@ -125,6 +114,7 @@ def add_product():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
 
 
