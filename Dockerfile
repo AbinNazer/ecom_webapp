@@ -1,4 +1,4 @@
-# Use official Python image
+# Use Python slim image
 FROM python:3.11-slim
 
 # Set working directory
@@ -8,17 +8,15 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install dependencies
-RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code
+# Copy the rest of the app
 COPY . .
 
 # Expose port
 EXPOSE 5000
 
-# Start app
+# Run app
 CMD ["python", "app.py"]
-
 
 

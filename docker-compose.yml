@@ -1,4 +1,5 @@
 version: '3.9'
+
 services:
   web:
     build: .
@@ -6,6 +7,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./static/images:/app/static/images
-    restart: unless-stopped
+      - ./static:/app/static
+      - ./templates:/app/templates
+    restart: always
 

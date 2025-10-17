@@ -5,14 +5,14 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Configuration for image uploads
-UPLOAD_FOLDER = os.path.join('static', 'images')
+UPLOAD_FOLDER = 'static/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Ensure the upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
-# In-memory products list
+# In-memory products list with static image paths
 products = [
     {
         'id': 1,
@@ -22,7 +22,7 @@ products = [
         'discount': 20,
         'rating': 4,
         'category': 'Electronics',
-        'image': url_for('static', filename='images/sample1.jpg')
+        'image': '/static/images/sample1.jpg'
     },
     {
         'id': 2,
@@ -32,7 +32,7 @@ products = [
         'discount': None,
         'rating': 5,
         'category': 'Books',
-        'image': url_for('static', filename='images/sample2.jpg')
+        'image': '/static/images/sample2.jpg'
     }
 ]
 
@@ -75,7 +75,7 @@ def add_to_cart(product_id):
         cart.append(product)
     return redirect(url_for('cart_page'))
 
-# Add new product
+# Add new product page
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     if request.method == 'POST':
@@ -87,18 +87,18 @@ def add_product():
         discount = int(discount) if discount else None
         rating = int(request.form.get('rating', 0))
         category = request.form.get('category', 'Misc')
-        image_file = request.files.get('image')
+        image_file = request.files['image']
 
         if image_file and allowed_file(image_file.filename):
             filename = secure_filename(image_file.filename)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             image_file.save(image_path)
-            image_url = url_for('static', filename=f'images/{filename}')  # Proper URL
+            image_url = f'/static/images/{filename}'
         else:
-            image_url = 'https://via.placeholder.com/300x300?text=Product+Image'
+            image_url = '/static/images/default.png'
 
         new_product = {
-            'id': max([p['id'] for p in products], default=0) + 1,
+            'id': max(p['id'] for p in products) + 1 if products else 1,
             'name': name,
             'price': price,
             'original_price': original_price,
@@ -114,7 +114,6 @@ def add_product():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
 
 
 
