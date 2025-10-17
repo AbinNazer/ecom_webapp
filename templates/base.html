@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AbinStore</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo"><a href="{{ url_for('index') }}">AbinStore</a></div>
+        <div class="logo">
+            <a href="{{ url_for('index') }}">AbinStore</a>
+        </div>
         <ul class="nav-links">
             <li><a href="{{ url_for('products_page') }}">Products</a></li>
             <li><a href="{{ url_for('cart_page') }}">Cart 🛒 ({{ cart|length }})</a></li>
@@ -27,6 +28,6 @@
     <footer>
         <p>&copy; 2025 AbinStore. All rights reserved.</p>
     </footer>
-
 </body>
 </html>
+

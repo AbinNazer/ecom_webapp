@@ -1,5 +1,4 @@
 version: '3.9'
-
 services:
   web:
     build: .
@@ -7,8 +6,6 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app                     # Mount project folder
-      - ./static/images:/app/static/images  # Persist uploaded images
-    environment:
-      - FLASK_ENV=development
+      - ./static/images:/app/static/images
     restart: unless-stopped
+

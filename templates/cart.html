@@ -1,17 +1,38 @@
 {% extends "base.html" %}
-{% block content %}
-<section class="cart-section">
-    <h2>Your Cart 🛒</h2>
-    {% if cart %}
-    <ul class="cart-items">
-        {% for item in cart %}
-        <li>{{ item.name }} - ₹{{ item.price }}</li>
-        {% endfor %}
-    </ul>
-    <p>Total: ₹{{ cart|sum(attribute='price') }}</p>
-    {% else %}
-    <p>Your cart is empty.</p>
-    {% endif %}
-</section>
-{% endblock %}
 
+{% block content %}
+<div class="cart-container">
+    <h1>🛒 Your Cart</h1>
+    {% if cart %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+            <tr>
+                <td>
+                    <img src="{{ item.image }}" alt="{{ item.name }}" class="cart-img">
+                    {{ item.name }}
+                </td>
+                <td>₹{{ item.price }}</td>
+                <td>1</td>
+                <td>₹{{ item.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="checkout">
+        <strong>Total: ₹{{ cart | sum(attribute='price') }}</strong>
+        <a href="#" class="btn">Checkout</a>
+    </div>
+    {% else %}
+    <p>Your cart is empty. <a href="{{ url_for('products_page') }}">Shop Now 🛍</a></p>
+    {% endif %}
+</div>
+{% endblock %}

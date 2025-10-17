@@ -1,16 +1,24 @@
-FROM python:3.9-slim
+# Use official Python image
+FROM python:3.11-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy requirements
 COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app files
+# Copy app code
 COPY . .
 
+# Expose port
 EXPOSE 5000
 
+# Start app
 CMD ["python", "app.py"]
+
 
 

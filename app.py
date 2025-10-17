@@ -40,9 +40,11 @@ categories = ['Electronics', 'Books', 'Clothing', 'Toys']
 
 cart = []
 
+# Helper function
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# Routes
 @app.route('/')
 def index():
     return render_template('index.html', cart=cart)
@@ -90,10 +92,10 @@ def add_product():
             image_file.save(image_path)
             image_url = f'/static/images/{filename}'
         else:
-            image_url = '/static/images/default.png'
+            image_url = '/static/images/default.png'  # default image
 
         new_product = {
-            'id': max([p['id'] for p in products]) + 1 if products else 1,
+            'id': max(p['id'] for p in products) + 1 if products else 1,
             'name': name,
             'price': price,
             'original_price': original_price,
@@ -105,8 +107,9 @@ def add_product():
         products.append(new_product)
         return redirect(url_for('products_page'))
 
-    return render_template('add_product.html', categories=categories)
+    return render_template('add_product.html', categories=categories, cart=cart)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
