@@ -1,21 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My E-commerce Site</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abin Store</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('products_page') }}">Products</a>
-      <a href="{{ url_for('cart_page') }}">Cart 🛒</a>
-      <a href="{{ url_for('add_product') }}">Add Product</a>
-    </nav>
-  </header>
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('index') }}">AbinStore</a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('products_page') }}">Products</a></li>
+                <li><a href="{{ url_for('cart_page') }}">Cart 🛒 ({{ cart|length }})</a></li>
+                <li><a href="{{ url_for('add_product') }}">Add Product</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 AbinStore. All rights reserved.</p>
+            <p>Follow us on 
+                <a href="#">Facebook</a> | 
+                <a href="#">Twitter</a> | 
+                <a href="#">Instagram</a>
+            </p>
+        </div>
+    </footer>
+
 </body>
 </html>

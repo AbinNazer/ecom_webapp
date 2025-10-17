@@ -1,15 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Your Cart</h2>
+<h2 class="title">🛒 Your Cart</h2>
+
 {% if cart %}
-  <ul>
+<table class="cart-table">
+    <tr>
+        <th>Product</th>
+        <th>Price</th>
+    </tr>
     {% for item in cart %}
-      <li>{{ item.name }} - ₹{{ item.price }}</li>
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>₹{{ item.price }}</td>
+    </tr>
     {% endfor %}
-  </ul>
-  <h3>Total: ₹{{ total }}</h3>
-  <a href="/clear_cart" class="btn danger">Clear Cart</a>
+</table>
+<p class="total">Total: ₹{{ cart|sum(attribute='price') }}</p>
+<a href="#" class="btn checkout-btn">Checkout</a>
 {% else %}
-  <p>Your cart is empty 😔</p>
+<p>Your cart is empty!</p>
 {% endif %}
 {% endblock %}
+

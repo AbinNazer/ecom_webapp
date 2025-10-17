@@ -1,14 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Available Products</h2>
-<div class="grid">
-  {% for product in products %}
-  <div class="card">
-    <img src="{{ product.image }}" alt="{{ product.name }}">
-    <h3>{{ product.name }}</h3>
-    <p>₹{{ product.price }}</p>
-    <a href="/add_to_cart/{{ product.id }}" class="btn">Add to Cart</a>
-  </div>
-  {% endfor %}
-</div>
+<section class="hero">
+    <h1>Welcome to AbinStore 🛍</h1>
+    <p>Find amazing deals and products!</p>
+    <a href="{{ url_for('products_page') }}" class="btn">Shop Now</a>
+</section>
+
+<section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="grid">
+        {% for product in featured_products %}
+        <div class="card">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>₹{{ product.price }}
+                {% if product.original_price %}
+                <span class="old-price">₹{{ product.original_price }}</span>
+                {% endif %}
+            </p>
+            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn add-btn">Add to Cart 🛒</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}
+

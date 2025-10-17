@@ -7,8 +7,6 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app  # Mount current directory for live code updates
-      - ./static:/app/static
-    environment:
-      - FLASK_ENV=development
-    restart: unless-stopped
+      - .:/app
+      - ./static/images:/app/static/images
+    restart: always
