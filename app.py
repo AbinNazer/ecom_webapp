@@ -12,27 +12,37 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-# In-memory products list
+# In-memory products list with placeholders
 products = [
     {
         'id': 1,
-        'name': 'Sample Product 1',
-        'price': 499,
-        'original_price': 599,
-        'discount': 20,
+        'name': 'Smartphone',
+        'price': 14999,
+        'original_price': 19999,
+        'discount': 25,
         'rating': 4,
         'category': 'Electronics',
-        'image': '/static/images/sample1.jpg'
+        'image': 'https://via.placeholder.com/300x300?text=Smartphone'
     },
     {
         'id': 2,
-        'name': 'Sample Product 2',
-        'price': 299,
+        'name': 'Python Basics Book',
+        'price': 499,
         'original_price': None,
         'discount': None,
         'rating': 5,
         'category': 'Books',
-        'image': '/static/images/sample2.jpg'
+        'image': 'https://via.placeholder.com/300x300?text=Python+Book'
+    },
+    {
+        'id': 3,
+        'name': 'Laptop',
+        'price': 3000,
+        'original_price': 4000,
+        'discount': 25,
+        'rating': 4,
+        'category': 'Electronics',
+        'image': 'https://via.placeholder.com/300x300?text=Laptop'
     }
 ]
 
@@ -46,7 +56,6 @@ def allowed_file(filename):
 # Home page
 @app.route('/')
 def index():
-    # Pass the first 4 products and cart
     return render_template('index.html', products=products[:4], cart=cart)
 
 # Products page
@@ -88,7 +97,7 @@ def add_product():
         discount = int(discount) if discount else None
         rating = int(request.form.get('rating', 0))
         category = request.form.get('category', 'Misc')
-        image_file = request.files['image']
+        image_file = request.files.get('image')
 
         if image_file and allowed_file(image_file.filename):
             filename = secure_filename(image_file.filename)
@@ -96,10 +105,11 @@ def add_product():
             image_file.save(image_path)
             image_url = f'/static/images/{filename}'
         else:
-            image_url = '/static/images/default.png'
+            # fallback placeholder image
+            image_url = 'https://via.placeholder.com/300x300?text=Product+Image'
 
         new_product = {
-            'id': max(p['id'] for p in products) + 1 if products else 1,
+            'id': max([p['id'] for p in products]) + 1 if products else 1,
             'name': name,
             'price': price,
             'original_price': original_price,
