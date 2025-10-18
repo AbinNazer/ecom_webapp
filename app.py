@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 from werkzeug.utils import secure_filename
-import openai
+from openai import OpenAI
 
 app = Flask(__name__)
 
@@ -118,10 +118,11 @@ def add_product():
 
     return render_template('add_product.html', categories=categories, cart=cart)
 
+
 # =====================
-# 🤖 AI Chatbot Route
+# 🤖 AI Chatbot Route (Updated for openai>=1.0.0)
 # =====================
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -131,7 +132,7 @@ def chat():
         return jsonify({"reply": "Please say something!"})
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful shopping assistant for an e-commerce website."},
@@ -139,7 +140,7 @@ def chat():
             ]
         )
 
-        ai_reply = response["choices"][0]["message"]["content"]
+        ai_reply = response.choices[0].message.content
         return jsonify({"reply": ai_reply})
 
     except Exception as e:
@@ -151,5 +152,4 @@ def chat():
 # =====================
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
 
