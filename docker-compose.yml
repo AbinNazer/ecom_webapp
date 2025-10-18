@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   web:
@@ -7,7 +7,6 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./static:/app/static
-      - ./templates:/app/templates
+      - .:/app
     restart: always
 

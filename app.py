@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import os
 from werkzeug.utils import secure_filename
-from openai import OpenAI
 
 app = Flask(__name__)
 
@@ -120,31 +119,30 @@ def add_product():
 
 
 # =====================
-# 🤖 AI Chatbot Route (Updated for openai>=1.0.0)
+# 🧠 Local AI Chatbot (No API)
 # =====================
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_message = request.json.get("message", "")
+    user_message = request.json.get("message", "").lower()
 
     if not user_message:
-        return jsonify({"reply": "Please say something!"})
+        return jsonify({"reply": "Please type something!"})
 
-    try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful shopping assistant for an e-commerce website."},
-                {"role": "user", "content": user_message}
-            ]
-        )
+    # Simple keyword-based responses
+    if "price" in user_message:
+        reply = "You can check the price on each product card. Would you like me to show discounts too?"
+    elif "discount" in user_message:
+        reply = "We have great discounts up to 25%! Check out the 'Smartphone' section."
+    elif "order" in user_message or "buy" in user_message:
+        reply = "You can add items to your cart and proceed to checkout!"
+    elif "hello" in user_message or "hi" in user_message:
+        reply = "Hello there! 👋 How can I help you today?"
+    elif "help" in user_message:
+        reply = "Sure! You can browse products, add them to your cart, or ask me about deals."
+    else:
+        reply = "I'm your shopping assistant 🤖 — ask me about products, prices, or discounts!"
 
-        ai_reply = response.choices[0].message.content
-        return jsonify({"reply": ai_reply})
-
-    except Exception as e:
-        return jsonify({"reply": f"Error: {str(e)}"})
+    return jsonify({"reply": reply})
 
 
 # =====================
